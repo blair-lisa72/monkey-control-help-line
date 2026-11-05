@@ -171,20 +171,15 @@
         </div>
     </div>
 
- <script>
+    <script>
         let audioCtx = null;
         let sirenInterval = null;
         let stepInterval = null;
         let monkeyInterval = null;
 
         function initAudio() {
-            // Checks if audio context exists; if not, creates it safely
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            // CRITICAL FIX: Forces the browser to awake the audio context if it was asleep
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
             }
         }
 
@@ -239,9 +234,7 @@
         }
 
         function startEmergencyProtocol() {
-            // First initialize and resume the audio engines
             initAudio();
-            
             const btn = document.getElementById('dispatchBtn');
             const timer = document.getElementById('timerDisplay');
             const stage = document.getElementById('chaseStage');
@@ -251,30 +244,3 @@
             stage.style.display = 'block';
 
             sirenInterval = setInterval(playSiren, 700);
-            stepInterval = setInterval(playFootstep, 200); 
-            monkeyInterval = setInterval(() => {
-                if(Math.random() > 0.25) playMonkeyScreech();
-            }, 350);
-
-            setTimeout(() => {
-                clearInterval(sirenInterval);
-                clearInterval(stepInterval);
-                clearInterval(monkeyInterval);
-                stage.style.display = 'none';
-            }, 12000);
-
-            let timeRemaining = 300; 
-            const countdown = setInterval(() => {
-                timeRemaining--;
-                if (timeRemaining <= 0) {
-                    clearInterval(countdown);
-                    timer.innerText = "UNITS ARRIVED";
-                    btn.disabled = false;
-                } else {
-                    let minutes = Math.floor(timeRemaining / 60);
-                    let seconds = timeRemaining % 60;
-                    timer.innerText = `TIME UNTIL ARRIVAL: ${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-                }
-            }, 1000);
-        }
-    </script>
