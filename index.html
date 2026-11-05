@@ -81,6 +81,8 @@ html
             transition: all 0.2s ease;
             outline: none;
             letter-spacing: 1px;
+            position: relative;
+            z-index: 10;
         }
 
         #dispatchBtn:hover {
@@ -102,7 +104,7 @@ html
             margin-top: 20px;
             font-family: 'Courier New', Courier, monospace;
             color: #2ed573;
-            display: none;
+            display: none; /* CRITICAL FIX: Stays completely out of cursor layout bounds initially */
             font-weight: 900;
             background: #000000;
             padding: 15px 35px;
@@ -267,6 +269,3 @@ html
         function playSiren() {
             var now = audioCtx.currentTime;
             var osc1 = audioCtx.createOscillator();
-            var osc2 = audioCtx.createOscillator();
-            var gainNode = audioCtx.createGain();
-            osc1.type = 'sawtooth';
