@@ -104,7 +104,7 @@ html
             margin-top: 20px;
             font-family: 'Courier New', Courier, monospace;
             color: #2ed573;
-            display: none; /* CRITICAL FIX: Stays completely out of cursor layout bounds initially */
+            display: none;
             font-weight: 900;
             background: #000000;
             padding: 15px 35px;
@@ -143,6 +143,7 @@ html
             gap: 6px;
         }
 
+        /* High-Definition Tactical Specialist blueprint layout */
         .operator {
             width: 70px;
             height: 130px;
@@ -156,6 +157,7 @@ html
             gap: 10px;
         }
 
+        /* High-Definition Realistic Ape asset blueprint mapping */
         .rogue-monkey {
             width: 65px;
             height: 95px;
@@ -228,44 +230,37 @@ html
         var stepInterval = null;
         var monkeyInterval = null;
 
-        document.getElementById('dispatchBtn').addEventListener('click', function() {
-            var btn = document.getElementById('dispatchBtn');
-            var statusText = document.getElementById('statusDisplay');
-            var stage = document.getElementById('chaseStage');
-            
-            btn.disabled = true;
-            statusText.style.display = 'none';
-            stage.style.display = 'block';
+        // CRITICAL FAILSAGE SYSTEM ENGINE BOOTSTRAPPER
+        window.onload = function() {
+            var dispatchButton = document.getElementById('dispatchBtn');
+            if (dispatchButton) {
+                dispatchButton.removeAttribute('disabled');
+                dispatchButton.onclick = function() {
+                    var btn = document.getElementById('dispatchBtn');
+                    var statusText = document.getElementById('statusDisplay');
+                    var stage = document.getElementById('chaseStage');
+                    
+                    btn.disabled = true;
+                    statusText.style.display = 'none';
+                    stage.style.display = 'block';
 
-            try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-            } catch(e) {
-                console.log(e);
-            }
+                    try {
+                        if (!audioCtx) {
+                            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        }
+                        if (audioCtx.state === 'suspended') {
+                            audioCtx.resume();
+                        }
+                    } catch(e) {
+                        console.log(e);
+                    }
 
-            if (audioCtx) {
-                sirenInterval = setInterval(playSiren, 600);
-                stepInterval = setInterval(playFootstep, 180);
-                monkeyInterval = setInterval(function() {
-                    if(Math.random() > 0.2) playMonkeyScreech();
-                }, 280);
-            }
+                    if (audioCtx) {
+                        sirenInterval = setInterval(playSiren, 600);
+                        stepInterval = setInterval(playFootstep, 180);
+                        monkeyInterval = setInterval(function() {
+                            if(Math.random() > 0.2) playMonkeyScreech();
+                        }, 280);
+                    }
 
-            setTimeout(function() {
-                if(sirenInterval) clearInterval(sirenInterval);
-                if(stepInterval) clearInterval(stepInterval);
-                if(monkeyInterval) clearInterval(monkeyInterval);
-                stage.style.display = 'none';
-                statusText.style.display = 'block';
-                btn.disabled = false;
-            }, 12000);
-        });
-
-        function playSiren() {
-            var now = audioCtx.currentTime;
-            var osc1 = audioCtx.createOscillator();
+                    setTimeout(function() {
