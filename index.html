@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monkey Control Help Line</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #f39c12;
+            text-align: center;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #bdc3c7;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Dispatch Button */
+        #dispatchBtn {
+            background-color: #c0392b;
+            color: white;
+            border: 5px solid #962d22;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5), inset 0 5px 10px rgba(255,255,255,0.3);
+            transition: transform 0.1s, background-color 0.2s;
+            outline: none;
+        }
+
+        #dispatchBtn:hover {
+            background-color: #d35400;
+        }
+
+        #dispatchBtn:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        #dispatchBtn:disabled {
+            background-color: #7f8c8d;
+            border-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Timer Display */
+        #timerDisplay {
+            font-size: 2rem;
+            margin-top: 30px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #e74c3c;
+            visibility: hidden;
+            font-weight: bold;
+            background: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 2px solid #333;
+        }
+
+        /* Animation Sandbox Stage */
+        .stage {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 40px;
+            background-color: #2c3e50;
+            border-top: 4px solid #34495e;
+            border-bottom: 4px solid #34495e;
+            overflow: hidden;
+            display: none;
+        }
+
+        .sprite {
+            position: absolute;
+            bottom: 20px;
+            font-size: 3rem;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        /* CSS Keyframe Animations */
+        @keyframes chaseRight {
+            0% { left: -150px; transform: scaleX(1); }
+            100% { left: 110%; transform: scaleX(1); }
+        }
+
+        @keyframes chaseLeft {
+            0% { right: -150px; transform: scaleX(-1); }
+            100% { right: 110%; transform: scaleX(-1); }
+        }
+
+        .run-right {
+            animation: chaseRight 4s linear infinite;
+        }
+
+        .run-left {
+            animation: chaseLeft 4s linear infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Thank you for using the Monkey Control Help Line.</h1>
+    <div class="subtitle">Emergency Simian Relocation Services</div>
+
+    <button id="dispatchBtn" onclick="startEmergencyProtocol()">Dispatch</button>
+
+    <div id="timerDisplay">TIME UNTIL ARRIVAL: 05:00</div>
+
+    <!-- The Chase Sequence Stage -->
+    <div class="stage" id="chaseStage">
+        <!-- Running Right Batch -->
+        <div class="sprite run-right" style="animation-delay: 0s; bottom: 80px;">🐒 🐒 🐒</div>
+        <div class="sprite run-right" style="animation-delay: 0.4s; bottom: 20px;">🕵️‍♂️ 🕵️‍♂️ 🕵️‍♂️ 🕵️‍♂️ 🕵️‍♂️</div>
+        
+        <!-- Running Left Batch -->
+        <div class="sprite run-left" style="animation-delay: 2s; bottom: 90px;">🐒 🐒</div>
+        <div class="sprite run-left" style="animation-delay: 2.3s; bottom: 10px;">🕵️‍♂️ 🕵️‍♂️ 🕵️‍♂️ 🕵️‍♂️ 🕵️‍♂️</div>
+    </div>
+
+    <script>
+        let audioCtx = null;
+        let sirenInterval = null;
+        let stepInterval = null;
+        let monkeyInterval = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Web Audio Generators
+        function playSiren() {
+            if (!audioCtx) return;
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            // High-low wail modulation
+            osc.frequency.linearRampToValueAtTime(900, audioCtx.currentTime + 0.4);
+            osc.frequency.linearRampToValueAtTime(600, audioCtx.currentTime + 0.8);
+            
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.8);
+        }
+
+        function playFootstep() {
+            if (!audioCtx) return;
+            // Heavy boots: low frequency thud mixed with noise snap
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.1);
+            
+            gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.15);
+        }
+
+        function playMonkeyScreech() {
+            if (!audioCtx) return;
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            
+            osc.type = 'sine';
+            // Wild frequency pitch modulation for realistic chattering screeches
+            let now = audioCtx.currentTime;
+            osc.frequency.setValueAtTime(800, now);
+            osc.frequency.linearRampToValueAtTime(1800, now + 0.05);
+            osc.frequency.linearRampToValueAtTime(1200, now + 0.1);
+            osc.frequency.linearRampToValueAtTime(2000, now + 0.15);
+            osc.frequency.linearRampToValueAtTime(600, now + 0.25);
+            
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(now + 0.3);
+        }
+
+        function startEmergencyProtocol() {
+            // Initialize Audio Content on User Interaction
+            initAudio();
+            
+            // UI Manipulations
+            const btn = document.getElementById('dispatchBtn');
+            const timer = document.getElementById('timerDisplay');
+            const stage = document.getElementById('chaseStage');
+            
+            btn.disabled = true;
+            timer.style.visibility = 'visible';
+            stage.style.display = 'block';
+
+            // Start Audio Loops
+            sirenInterval = setInterval(playSiren, 800);
+            stepInterval = setInterval(playFootstep, 250); // Fast rhythmic stepping sounds
+            monkeyInterval = setInterval(() => {
+                if(Math.random() > 0.3) playMonkeyScreech();
+            }, 400);
+
+            // 12-Second Chase Cleanup
+            setTimeout(() => {
+                clearInterval(sirenInterval);
+                clearInterval(stepInterval);
+                clearInterval(monkeyInterval);
+                stage.style.display = 'none';
+            }, 12000);
+
+            // 5 Minute Countdown Timer (300 seconds)
+            let timeRemaining = 300; 
+            const countdown = setInterval(() => {
+                timeRemaining--;
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    timer.innerText = "ARRIVED";
+                    btn.disabled = false;
+                } else {
+                    let minutes = Math.floor(timeRemaining / 60);
+                    let seconds = timeRemaining % 60;
+                    minutes = minutes < 10 ? '0' + minutes : minutes;
+                    seconds = seconds < 10 ? '0' + seconds : seconds;
+                    timer.innerText = `TIME UNTIL ARRIVAL: ${minutes}:${seconds}`;
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
