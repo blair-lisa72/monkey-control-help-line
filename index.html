@@ -1,14 +1,23 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monkey Control Help Line</title>
+    <title>CRISIS PROTOCOL: MONKEY CONTROL HELP LINE</title>
     <style>
+        :root {
+            --primary-glow: #ff3838;
+            --secondary-glow: #ff9f43;
+            --bg-dark: #060913;
+            --panel-bg: rgba(13, 19, 33, 0.85);
+            --border-neon: #00d2d3;
+        }
+
         body {
-            background-color: #0d0f12;
+            background-color: var(--bg-dark);
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Chango', 'Impact', 'Segoe UI', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,231 +25,228 @@
             min-height: 100vh;
             margin: 0;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at center, #1c2430 0%, #0d0f12 100%);
+            background-image: 
+                radial-gradient(circle at center, #111a2e 0%, #060913 100%),
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        /* Top Secret Terminal Header */
+        .terminal-header {
+            text-align: center;
+            max-width: 900px;
+            padding: 20px;
+            background: var(--panel-bg);
+            border: 2px dashed rgba(255, 159, 67, 0.4);
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            margin-bottom: 35px;
+            backdrop-filter: blur(5px);
         }
 
         h1 {
-            font-size: 2.8rem;
-            color: #ff9f43;
-            text-align: center;
-            margin-bottom: 5px;
+            font-size: 3rem;
+            color: var(--secondary-glow);
+            margin: 0 0 10px 0;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(255, 159, 67, 0.4);
+            letter-spacing: 4px;
+            text-shadow: 0 0 25px rgba(255, 159, 67, 0.6);
+            animation: pulseGlow 2s infinite alternate;
         }
 
         .subtitle {
-            font-size: 1.1rem;
-            color: #8492a6;
-            margin-bottom: 40px;
-            text-align: center;
-            letter-spacing: 1px;
+            font-size: 1.3rem;
+            color: #48dbfb;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        /* Tactical Dispatch Button */
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 15px rgba(255, 159, 67, 0.5); }
+            100% { text-shadow: 0 0 35px rgba(255, 159, 67, 0.9), 0 0 10px #ff4757; }
+        }
+
+        /* Ultimate Threat Level Dispatch Button */
+        .btn-container {
+            position: relative;
+            z-index: 10;
+        }
+
         #dispatchBtn {
-            background: linear-gradient(135deg, #ff4757 0%, #ee5253 100%);
+            background: radial-gradient(circle, #ff4d4d 0%, #c0392b 100%);
             color: white;
-            border: 4px solid #ff6b81;
+            border: 8px double #ff6b6b;
             border-radius: 50%;
-            width: 160px;
-            height: 160px;
-            font-size: 1.6rem;
+            width: 180px;
+            height: 180px;
+            font-size: 1.8rem;
             font-weight: 900;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 0 30px rgba(238, 82, 83, 0.6), inset 0 4px 10px rgba(255,255,255,0.4);
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 0 0 15px rgba(255, 77, 77, 0.15),
+                0 15px 35px rgba(0,0,0,0.6),
+                inset 0 8px 15px rgba(255,255,255,0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             outline: none;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         #dispatchBtn:hover {
-            transform: scale(1.05);
-            background: linear-gradient(135deg, #ff6b81 0%, #ff4757 100%);
-            box-shadow: 0 0 45px rgba(238, 82, 83, 0.9);
+            transform: scale(1.08) rotate(5deg);
+            box-shadow: 
+                0 0 0 25px rgba(255, 77, 77, 0.3),
+                0 20px 45px rgba(255, 77, 77, 0.5),
+                inset 0 4px 10px rgba(255,255,255,0.6);
+            background: radial-gradient(circle, #ff6b6b 0%, #e74c3c 100%);
         }
 
         #dispatchBtn:active {
-            transform: scale(0.95);
-            box-shadow: 0 0 15px rgba(238, 82, 83, 0.5);
+            transform: scale(0.92);
+            box-shadow: 0 0 0 10px rgba(255, 77, 77, 0.4);
         }
 
         #dispatchBtn:disabled {
-            background: #2f3542;
-            border-color: #57606f;
-            color: #747d8c;
+            background: #222f3e !important;
+            border-color: #57606f !important;
+            color: #57606f;
             cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
-        /* Tactical Timer Display */
+        /* Tactical Countdown Matrix */
         #timerDisplay {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             margin-top: 35px;
             font-family: 'Courier New', Courier, monospace;
-            color: #ff4757;
+            color: var(--primary-glow);
             visibility: hidden;
-            font-weight: bold;
-            background: rgba(0, 0, 0, 0.85);
-            padding: 12px 25px;
-            border-radius: 6px;
-            border: 2px solid #ff4757;
-            box-shadow: 0 0 15px rgba(238, 82, 83, 0.3);
-            text-shadow: 0 0 10px rgba(238, 82, 83, 0.5);
+            font-weight: 900;
+            background: #000000;
+            padding: 15px 35px;
+            border-radius: 8px;
+            border: 2px solid var(--primary-glow);
+            box-shadow: 0 0 25px rgba(255, 56, 56, 0.4);
+            text-shadow: 0 0 15px rgba(255, 56, 56, 0.8);
+            letter-spacing: 2px;
         }
 
-        /* Cinematic Chase Stage */
+        /* Cinematic Combat Corridor */
         .stage {
             position: relative;
             width: 100%;
-            height: 240px;
-            margin-top: 50px;
-            background: linear-gradient(180deg, #1e272e 0%, #0a0f1d 100%);
-            border-top: 3px solid #ff9f43;
-            border-bottom: 3px solid #ff9f43;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            height: 280px;
+            margin-top: 45px;
+            background: linear-gradient(180deg, #101726 0%, #050811 100%);
+            border-top: 4px solid var(--border-neon);
+            border-bottom: 4px solid var(--border-neon);
+            box-shadow: inset 0 0 50px rgba(0,210,211,0.3), 0 10px 40px rgba(0,0,0,0.9);
             overflow: hidden;
             display: none;
         }
 
-        /* Advanced Graphical Container via Data-URIs */
-        .sprite-container {
+        /* Scanning overlay lines for maximum coolness */
+        .stage::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
+        .sprite-cluster {
             position: absolute;
             display: flex;
             align-items: flex-end;
-            gap: 15px;
-            height: 120px;
-            bottom: 25px;
+            bottom: 15px;
+            height: 180px;
         }
 
-        /* Realistic Monkey Sprite Mapping */
-        .monkeys {
-            width: 180px;
-            height: 90px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 120 60"><path d="M20,40 Q15,25 25,20 Q35,15 45,25 Q55,20 65,30 Q75,25 85,35 Q95,20 110,45" fill="none" stroke="%23574b90" stroke-width="8" stroke-linecap="round"/><circle cx="28" cy="22" r="9" fill="%23786fa6"/><circle cx="48" cy="26" r="8" fill="%23786fa6"/><circle cx="68" cy="32" r="9" fill="%23786fa6"/><circle cx="88" cy="36" r="8" fill="%23786fa6"/></svg>');
+        /* Elite Spec-Ops Units: Modeled precisely after yellow visor tactical helmet look */
+        .fbi-strike-team {
+            display: flex;
+            gap: 8px;
+            padding-left: 20px;
+        }
+
+        .operator {
+            width: 75px;
+            height: 140px;
             background-size: contain;
             background-repeat: no-repeat;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 80 140"><rect x="22" y="50" width="36" height="55" fill="%232c3e50" stroke="%231a252f" stroke-width="2"/><rect x="26" y="55" width="28" height="30" fill="%231e272e"/><circle cx="40" cy="30" r="16" fill="%232c3e50"/><path d="M26,24 Q40,12 54,24 Q56,34 40,36 Q24,34 26,24" fill="%2311171d"/><rect x="28" y="22" width="24" height="11" fill="%23ffd32a" rx="2" opacity="0.95"/><rect x="18" y="52" width="10" height="40" fill="%2334495e" rx="4"/><rect x="52" y="52" width="10" height="40" fill="%2334495e" rx="4"/><rect x="24" y="105" width="14" height="30" fill="%231e272e"/><rect x="42" y="105" width="14" height="30" fill="%231e272e"/><rect x="45" y="60" width="40" height="12" fill="%23000000" rx="2" transform="rotate(-10, 45, 60)"/></svg>');
         }
 
-        /* Custom Grounded Roblox Visual Tracker Uniform Mapping */
-        .fbi-agents {
-            width: 260px;
-            height: 120px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 160 80"><g transform="translate(10,0)"><rect x="10" y="25" width="22" height="35" fill="%232c3e50" rx="3"/><rect x="13" y="10" width="16" height="16" fill="%23ffdd59" rx="2"/><rect x="8" y="6" width="26" height="10" fill="%231e272e" rx="4"/><line x1="25" y1="35" x2="50" y2="35" stroke="%23000" stroke-width="5"/></g><g transform="translate(45,5)"><rect x="10" y="25" width="22" height="35" fill="%232c3e50" rx="3"/><rect x="13" y="10" width="16" height="16" fill="%23ffdd59" rx="2"/><rect x="8" y="6" width="26" height="10" fill="%231e272e" rx="4"/><line x1="25" y1="35" x2="50" y2="35" stroke="%23000" stroke-width="5"/></g><g transform="translate(80,-2)"><rect x="10" y="25" width="22" height="35" fill="%232c3e50" rx="3"/><rect x="13" y="10" width="16" height="16" fill="%23ffdd59" rx="2"/><rect x="8" y="6" width="26" height="10" fill="%231e272e" rx="4"/><line x1="25" y1="35" x2="50" y2="35" stroke="%23000" stroke-width="5"/></g></svg>');
+        /* High-Definition Threat Monkeys */
+        .monkey-swarm {
+            display: flex;
+            gap: 12px;
+        }
+
+        .rogue-monkey {
+            width: 70px;
+            height: 100px;
             background-size: contain;
             background-repeat: no-repeat;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 80 100"><circle cx="40" cy="45" r="22" fill="%23574b90"/><circle cx="40" cy="43" r="16" fill="%23f7d794"/><circle cx="20" cy="38" r="8" fill="%23574b90"/><circle cx="60" cy="38" r="8" fill="%23574b90"/><circle cx="33" cy="38" r="3" fill="%23000"/><circle cx="47" cy="38" r="3" fill="%23000"/><path d="M32,54 Q40,62 48,54" fill="none" stroke="%23000" stroke-width="3" stroke-linecap="round"/><path d="M40,65 Q20,85 10,60 Q5,95 25,90" fill="none" stroke="%233d3d3d" stroke-width="4"/><rect x="25" y="65" width="30" height="30" fill="%23574b90" rx="10"/></svg>');
         }
 
-        /* High-speed CSS Keyframe Timings */
-        @keyframes runRight {
-            0% { left: -300px; transform: scaleX(1); }
+        /* High-Velocity Sweep Configurations */
+        @keyframes sweepRight {
+            0% { left: -550px; transform: scaleX(1); }
             100% { left: 105%; transform: scaleX(1); }
         }
 
-        @keyframes runLeft {
-            0% { right: -300px; transform: scaleX(-1); }
+        @keyframes sweepLeft {
+            0% { right: -550px; transform: scaleX(-1); }
             100% { right: 105%; transform: scaleX(-1); }
         }
 
-        .dir-right { animation: runRight 3.2s linear infinite; }
-        .dir-left { animation: runLeft 3.2s linear infinite; }
+        .run-east { animation: sweepRight 3s linear infinite; }
+        .run-west { animation: sweepLeft 3s linear infinite; }
     </style>
 </head>
 <body>
 
-    <h1>Thank you for using the Monkey Control Help Line.</h1>
-    <div class="subtitle">Tactical Containment & Rapid Relocation Units</div>
+    <div class="terminal-header">
+        <h1>Thank you for using the Monkey Control Help Line.</h1>
+        <div class="subtitle">TACTICAL OPERATIONAL COMMAND // CODE RED DISPATCH</div>
+    </div>
 
-    <button id="dispatchBtn" onclick="startEmergencyProtocol()">Dispatch</button>
+    <div class="btn-container">
+        <button id="dispatchBtn" onclick="startEmergencyProtocol()">Dispatch</button>
+    </div>
 
     <div id="timerDisplay">TIME UNTIL ARRIVAL: 05:00</div>
 
+    <!-- Cinematic Action Board -->
     <div class="stage" id="chaseStage">
-        <!-- Rightbound Tactical Pursuit Cluster -->
-        <div class="sprite-container dir-right" style="animation-delay: 0s;">
-            <div class="monkeys"></div>
-            <div class="fbi-agents"></div>
+        <!-- Flank Alpha (Heading East) -->
+        <div class="sprite-cluster run-east" style="animation-delay: 0s;">
+            <div class="monkey-swarm">
+                <div class="rogue-monkey"></div>
+                <div class="rogue-monkey" style="transform: scale(0.85) translateY(10px);"></div>
+                <div class="rogue-monkey"></div>
+            </div>
+            <div class="fbi-strike-team">
+                <div class="operator"></div>
+                <div class="operator" style="transform: translateY(-5px);"></div>
+                <div class="operator"></div>
+                <div class="operator"></div>
+                <div class="operator"></div>
+            </div>
         </div>
         
-        <!-- Leftbound Tactical Pursuit Cluster -->
-        <div class="sprite-container dir-left" style="animation-delay: 1.6s;">
-            <div class="monkeys"></div>
-            <div class="fbi-agents"></div>
-        </div>
-    </div>
-
-    <script>
-        let audioCtx = null;
-        let sirenInterval = null;
-        let stepInterval = null;
-        let monkeyInterval = null;
-
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        function playSiren() {
-            if (!audioCtx) return;
-            let osc = audioCtx.createOscillator();
-            let gain = audioCtx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(550, audioCtx.currentTime);
-            osc.frequency.linearRampToValueAtTime(950, audioCtx.currentTime + 0.35);
-            osc.frequency.linearRampToValueAtTime(550, audioCtx.currentTime + 0.7);
-            gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.7);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.7);
-        }
-
-        function playFootstep() {
-            if (!audioCtx) return;
-            let osc = audioCtx.createOscillator();
-            let gain = audioCtx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.08);
-            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.12);
-        }
-
-        function playMonkeyScreech() {
-            if (!audioCtx) return;
-            let osc = audioCtx.createOscillator();
-            let gain = audioCtx.createGain();
-            osc.type = 'sine';
-            let now = audioCtx.currentTime;
-            osc.frequency.setValueAtTime(900, now);
-            osc.frequency.linearRampToValueAtTime(2100, now + 0.04);
-            osc.frequency.linearRampToValueAtTime(1400, now + 0.08);
-            osc.frequency.linearRampToValueAtTime(2400, now + 0.14);
-            osc.frequency.linearRampToValueAtTime(500, now + 0.22);
-            gain.gain.setValueAtTime(0.07, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(now + 0.25);
-        }
-
-        function startEmergencyProtocol() {
-            initAudio();
-            const btn = document.getElementById('dispatchBtn');
-            const timer = document.getElementById('timerDisplay');
-            const stage = document.getElementById('chaseStage');
-            
-            btn.disabled = true;
-            timer.style.visibility = 'visible';
-            stage.style.display = 'block';
-
-            sirenInterval = setInterval(playSiren, 700);
+        <!-- Flank Beta (Heading West) -->
+        <div class="sprite-cluster run-west" style="animation-delay: 1.5s;">
+            <div class="monkey-swarm">
+                <div class="rogue-monkey" style="transform: scale(1.1);"></div>
+                <div class="rogue-monkey"></div>
+            </div>
