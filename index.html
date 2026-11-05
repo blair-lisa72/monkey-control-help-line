@@ -10,14 +10,14 @@ html
             --primary-glow: #ff3838;
             --secondary-glow: #ff9f43;
             --bg-dark: #060913;
-            --panel-bg: rgba(13, 19, 33, 0.85);
+            --panel-bg: rgba(13, 19, 33, 0.95);
             --border-neon: #00d2d3;
         }
 
         body {
             background-color: var(--bg-dark);
             color: #ffffff;
-            font-family: 'Chango', 'Impact', 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -27,36 +27,34 @@ html
             overflow-x: hidden;
             background-image: 
                 radial-gradient(circle at center, #111a2e 0%, #060913 100%),
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
 
-        /* Top Secret Terminal Header */
         .terminal-header {
             text-align: center;
-            max-width: 900px;
+            width: 90%;
+            max-width: 800px;
             padding: 20px;
             background: var(--panel-bg);
-            border: 2px dashed rgba(255, 159, 67, 0.4);
+            border: 2px solid var(--secondary-glow);
             border-radius: 12px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            box-shadow: 0 0 35px rgba(0,0,0,0.8);
             margin-bottom: 35px;
-            backdrop-filter: blur(5px);
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: var(--secondary-glow);
             margin: 0 0 10px 0;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 0 25px rgba(255, 159, 67, 0.6);
-            animation: pulseGlow 2s infinite alternate;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 159, 67, 0.5);
         }
 
         .subtitle {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #48dbfb;
             font-family: 'Courier New', monospace;
             font-weight: bold;
@@ -64,153 +62,125 @@ html
             letter-spacing: 2px;
         }
 
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 15px rgba(255, 159, 67, 0.5); }
-            100% { text-shadow: 0 0 35px rgba(255, 159, 67, 0.9), 0 0 10px #ff4757; }
-        }
-
-        /* Ultimate Threat Level Dispatch Button */
         .btn-container {
-            position: relative;
-            z-index: 10;
+            margin: 20px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #dispatchBtn {
             background: radial-gradient(circle, #ff4d4d 0%, #c0392b 100%);
             color: white;
-            border: 8px double #ff6b6b;
+            border: 6px solid #ff6b6b;
             border-radius: 50%;
-            width: 180px;
-            height: 180px;
-            font-size: 1.8rem;
+            width: 170px;
+            height: 170px;
+            font-size: 1.6rem;
             font-weight: 900;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 
-                0 0 0 15px rgba(255, 77, 77, 0.15),
-                0 15px 35px rgba(0,0,0,0.6),
-                inset 0 8px 15px rgba(255,255,255,0.4);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 25px rgba(255, 77, 77, 0.6), inset 0 4px 10px rgba(255,255,255,0.4);
+            transition: all 0.2s ease;
             outline: none;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         #dispatchBtn:hover {
-            transform: scale(1.08) rotate(5deg);
-            box-shadow: 
-                0 0 0 25px rgba(255, 77, 77, 0.3),
-                0 20px 45px rgba(255, 77, 77, 0.5),
-                inset 0 4px 10px rgba(255,255,255,0.6);
-            background: radial-gradient(circle, #ff6b6b 0%, #e74c3c 100%);
+            transform: scale(1.06);
+            box-shadow: 0 0 40px rgba(255, 77, 77, 0.9);
         }
 
         #dispatchBtn:active {
-            transform: scale(0.92);
-            box-shadow: 0 0 0 10px rgba(255, 77, 77, 0.4);
+            transform: scale(0.94);
         }
 
         #dispatchBtn:disabled {
             background: #222f3e !important;
             border-color: #57606f !important;
-            color: #57606f;
+            color: #57606f !important;
             cursor: not-allowed;
             transform: none !important;
             box-shadow: none !important;
         }
 
-        /* Tactical Countdown Matrix */
         #timerDisplay {
-            font-size: 2.5rem;
-            margin-top: 35px;
+            font-size: 2.3rem;
+            margin-top: 20px;
             font-family: 'Courier New', Courier, monospace;
             color: var(--primary-glow);
-            visibility: hidden;
+            display: none; /* Modified to block via JS safely */
             font-weight: 900;
             background: #000000;
-            padding: 15px 35px;
+            padding: 12px 30px;
             border-radius: 8px;
             border: 2px solid var(--primary-glow);
-            box-shadow: 0 0 25px rgba(255, 56, 56, 0.4);
-            text-shadow: 0 0 15px rgba(255, 56, 56, 0.8);
-            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(255, 56, 56, 0.5);
+            text-shadow: 0 0 10px rgba(255, 56, 56, 0.8);
         }
 
         /* Cinematic Combat Corridor */
         .stage {
             position: relative;
             width: 100%;
-            height: 280px;
-            margin-top: 45px;
-            background: linear-gradient(180deg, #101726 0%, #050811 100%);
+            height: 260px;
+            margin-top: 40px;
+            background: linear-gradient(180deg, #0e1424 0%, #04060f 100%);
             border-top: 4px solid var(--border-neon);
             border-bottom: 4px solid var(--border-neon);
-            box-shadow: inset 0 0 50px rgba(0,210,211,0.3), 0 10px 40px rgba(0,0,0,0.9);
+            box-shadow: inset 0 0 40px rgba(0,210,211,0.2);
             overflow: hidden;
             display: none;
-        }
-
-        /* Scanning overlay lines for maximum coolness */
-        .stage::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 4px, 6px 100%;
-            pointer-events: none;
         }
 
         .sprite-cluster {
             position: absolute;
             display: flex;
             align-items: flex-end;
-            bottom: 15px;
-            height: 180px;
+            bottom: 20px;
+            height: 160px;
         }
 
-        /* Elite Spec-Ops Units: Modeled precisely after yellow visor tactical helmet look */
+        /* Elite Spec-Ops tactical layout blueprint mapping */
         .fbi-strike-team {
             display: flex;
-            gap: 8px;
-            padding-left: 20px;
+            gap: 6px;
         }
 
         .operator {
-            width: 75px;
-            height: 140px;
+            width: 70px;
+            height: 130px;
             background-size: contain;
             background-repeat: no-repeat;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 80 140"><rect x="22" y="50" width="36" height="55" fill="%232c3e50" stroke="%231a252f" stroke-width="2"/><rect x="26" y="55" width="28" height="30" fill="%231e272e"/><circle cx="40" cy="30" r="16" fill="%232c3e50"/><path d="M26,24 Q40,12 54,24 Q56,34 40,36 Q24,34 26,24" fill="%2311171d"/><rect x="28" y="22" width="24" height="11" fill="%23ffd32a" rx="2" opacity="0.95"/><rect x="18" y="52" width="10" height="40" fill="%2334495e" rx="4"/><rect x="52" y="52" width="10" height="40" fill="%2334495e" rx="4"/><rect x="24" y="105" width="14" height="30" fill="%231e272e"/><rect x="42" y="105" width="14" height="30" fill="%231e272e"/><rect x="45" y="60" width="40" height="12" fill="%23000000" rx="2" transform="rotate(-10, 45, 60)"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 80 140"><rect x="22" y="50" width="36" height="55" fill="%232c3e50" stroke="%231a252f" stroke-width="2"/><rect x="26" y="55" width="28" height="30" fill="%231e272e"/><circle cx="40" cy="30" r="16" fill="%232c3e50"/><path d="M26,24 Q40,12 54,24 Q56,34 40,36 Q24,34 26,24" fill="%2311171d"/><rect x="28" y="22" width="24" height="11" fill="%23ffd32a" rx="2"/><rect x="18" y="52" width="10" height="40" fill="%2334495e" rx="4"/><rect x="52" y="52" width="10" height="40" fill="%2334495e" rx="4"/><rect x="24" y="105" width="14" height="30" fill="%231e272e"/><rect x="42" y="105" width="14" height="30" fill="%231e272e"/><rect x="45" y="60" width="40" height="12" fill="%23000000" rx="2" transform="rotate(-10, 45, 60)"/></svg>');
         }
 
-        /* High-Definition Threat Monkeys */
         .monkey-swarm {
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
 
         .rogue-monkey {
-            width: 70px;
-            height: 100px;
+            width: 65px;
+            height: 95px;
             background-size: contain;
             background-repeat: no-repeat;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 80 100"><circle cx="40" cy="45" r="22" fill="%23574b90"/><circle cx="40" cy="43" r="16" fill="%23f7d794"/><circle cx="20" cy="38" r="8" fill="%23574b90"/><circle cx="60" cy="38" r="8" fill="%23574b90"/><circle cx="33" cy="38" r="3" fill="%23000"/><circle cx="47" cy="38" r="3" fill="%23000"/><path d="M32,54 Q40,62 48,54" fill="none" stroke="%23000" stroke-width="3" stroke-linecap="round"/><path d="M40,65 Q20,85 10,60 Q5,95 25,90" fill="none" stroke="%233d3d3d" stroke-width="4"/><rect x="25" y="65" width="30" height="30" fill="%23574b90" rx="10"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 80 100"><circle cx="40" cy="45" r="22" fill="%23574b90"/><circle cx="40" cy="43" r="16" fill="%23f7d794"/><circle cx="20" cy="38" r="8" fill="%23574b90"/><circle cx="60" cy="38" r="8" fill="%23574b90"/><circle cx="33" cy="38" r="3" fill="%23000"/><circle cx="47" cy="38" r="3" fill="%23000"/><path d="M32,54 Q40,62 48,54" fill="none" stroke="%23000" stroke-width="3"/><rect x="25" y="65" width="30" height="30" fill="%23574b90" rx="10"/></svg>');
         }
 
-        /* High-Velocity Sweep Configurations */
         @keyframes sweepRight {
-            0% { left: -550px; transform: scaleX(1); }
-            100% { left: 105%; transform: scaleX(1); }
+            0% { left: -500px; }
+            100% { left: 105%; }
         }
 
         @keyframes sweepLeft {
-            0% { right: -550px; transform: scaleX(-1); }
+            0% { right: -500px; transform: scaleX(-1); }
             100% { right: 105%; transform: scaleX(-1); }
         }
 
-        .run-east { animation: sweepRight 3s linear infinite; }
-        .run-west { animation: sweepLeft 3s linear infinite; }
+        .run-east { animation: sweepRight 3.2s linear infinite; }
+        .run-west { animation: sweepLeft 3.2s linear infinite; }
     </style>
 </head>
 <body>
@@ -226,27 +196,74 @@ html
 
     <div id="timerDisplay">TIME UNTIL ARRIVAL: 05:00</div>
 
-    <!-- Cinematic Action Board -->
     <div class="stage" id="chaseStage">
-        <!-- Flank Alpha (Heading East) -->
-        <div class="sprite-cluster run-east" style="animation-delay: 0s;">
+        <div class="sprite-cluster run-east">
             <div class="monkey-swarm">
                 <div class="rogue-monkey"></div>
-                <div class="rogue-monkey" style="transform: scale(0.85) translateY(10px);"></div>
+                <div class="rogue-monkey" style="transform: scale(0.8); margin-bottom: -10px;"></div>
                 <div class="rogue-monkey"></div>
             </div>
             <div class="fbi-strike-team">
                 <div class="operator"></div>
-                <div class="operator" style="transform: translateY(-5px);"></div>
+                <div class="operator"></div>
                 <div class="operator"></div>
                 <div class="operator"></div>
                 <div class="operator"></div>
             </div>
         </div>
         
-        <!-- Flank Beta (Heading West) -->
-        <div class="sprite-cluster run-west" style="animation-delay: 1.5s;">
+        <div class="sprite-cluster run-west" style="animation-delay: 1.6s;">
             <div class="monkey-swarm">
-                <div class="rogue-monkey" style="transform: scale(1.1);"></div>
+                <div class="rogue-monkey"></div>
                 <div class="rogue-monkey"></div>
             </div>
+            <div class="fbi-strike-team">
+                <div class="operator"></div>
+                <div class="operator"></div>
+                <div class="operator"></div>
+                <div class="operator"></div>
+                <div class="operator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let audioCtx = null;
+        let sirenInterval = null;
+        let stepInterval = null;
+        let monkeyInterval = null;
+
+        function startEmergencyProtocol() {
+            // Force interface state rendering instantly on click gesture
+            const btn = document.getElementById('dispatchBtn');
+            const timer = document.getElementById('timerDisplay');
+            const stage = document.getElementById('chaseStage');
+            
+            btn.disabled = true;
+            timer.style.display = 'block';
+            stage.style.display = 'block';
+
+            // Audio Context Core Initialization API
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+            } catch(e) {
+                console.log("Audio Engine Access Denied", e);
+            }
+
+            // Audio Signal Loops
+            if (audioCtx) {
+                sirenInterval = setInterval(playSiren, 600);
+                stepInterval = setInterval(playFootstep, 180);
+                monkeyInterval = setInterval(() => {
+                    if(Math.random() > 0.2) playMonkeyScreech();
+                }, 280);
+            }
+
+            // 12-Second Stage Cutoff Event
+            setTimeout(() => {
+                if(sirenInterval) clearInterval(sirenInterval);
