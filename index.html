@@ -25,11 +25,7 @@ html
             min-height: 100vh;
             margin: 0;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at center, #111a2e 0%, #060913 100%),
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-image: radial-gradient(circle at center, #111a2e 0%, #060913 100%);
         }
 
         .terminal-header {
@@ -45,7 +41,7 @@ html
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             color: var(--secondary-glow);
             margin: 0 0 10px 0;
             text-transform: uppercase;
@@ -64,7 +60,7 @@ html
 
         .btn-container {
             margin: 20px;
-            height: 200px;
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -110,7 +106,7 @@ html
             margin-top: 20px;
             font-family: 'Courier New', Courier, monospace;
             color: var(--primary-glow);
-            display: none; /* Modified to block via JS safely */
+            display: none;
             font-weight: 900;
             background: #000000;
             padding: 12px 30px;
@@ -120,7 +116,6 @@ html
             text-shadow: 0 0 10px rgba(255, 56, 56, 0.8);
         }
 
-        /* Cinematic Combat Corridor */
         .stage {
             position: relative;
             width: 100%;
@@ -142,7 +137,6 @@ html
             height: 160px;
         }
 
-        /* Elite Spec-Ops tactical layout blueprint mapping */
         .fbi-strike-team {
             display: flex;
             gap: 6px;
@@ -191,7 +185,7 @@ html
     </div>
 
     <div class="btn-container">
-        <button id="dispatchBtn" onclick="startEmergencyProtocol()">Dispatch</button>
+        <button id="dispatchBtn">Dispatch</button>
     </div>
 
     <div id="timerDisplay">TIME UNTIL ARRIVAL: 05:00</div>
@@ -228,22 +222,20 @@ html
     </div>
 
     <script>
-        let audioCtx = null;
-        let sirenInterval = null;
-        let stepInterval = null;
-        let monkeyInterval = null;
+        var audioCtx = null;
+        var sirenInterval = null;
+        var stepInterval = null;
+        var monkeyInterval = null;
 
-        function startEmergencyProtocol() {
-            // Force interface state rendering instantly on click gesture
-            const btn = document.getElementById('dispatchBtn');
-            const timer = document.getElementById('timerDisplay');
-            const stage = document.getElementById('chaseStage');
+        document.getElementById('dispatchBtn').addEventListener('click', function() {
+            var btn = document.getElementById('dispatchBtn');
+            var timer = document.getElementById('timerDisplay');
+            var stage = document.getElementById('chaseStage');
             
             btn.disabled = true;
             timer.style.display = 'block';
             stage.style.display = 'block';
 
-            // Audio Context Core Initialization API
             try {
                 if (!audioCtx) {
                     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -252,18 +244,29 @@ html
                     audioCtx.resume();
                 }
             } catch(e) {
-                console.log("Audio Engine Access Denied", e);
+                console.log(e);
             }
 
-            // Audio Signal Loops
             if (audioCtx) {
                 sirenInterval = setInterval(playSiren, 600);
                 stepInterval = setInterval(playFootstep, 180);
-                monkeyInterval = setInterval(() => {
+                monkeyInterval = setInterval(function() {
                     if(Math.random() > 0.2) playMonkeyScreech();
                 }, 280);
             }
 
-            // 12-Second Stage Cutoff Event
-            setTimeout(() => {
+            setTimeout(function() {
                 if(sirenInterval) clearInterval(sirenInterval);
+                if(stepInterval) clearInterval(stepInterval);
+                if(monkeyInterval) clearInterval(monkeyInterval);
+                stage.style.display = 'none';
+            }, 12000);
+
+            var timeRemaining = 300; 
+            var countdown = setInterval(function() {
+                timeRemaining--;
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    timer.innerText = "TACTICAL INTERCEPTION COMPLETE // ARRIVED";
+                    btn.disabled = false;
+                } else {
