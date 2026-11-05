@@ -4,20 +4,12 @@ html
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRISIS PROTOCOL: MONKEY CONTROL HELP LINE</title>
+    <title>MONKEY CONTROL HELP LINE</title>
     <style>
-        :root {
-            --primary-glow: #ff3838;
-            --secondary-glow: #ff9f43;
-            --bg-dark: #060913;
-            --panel-bg: rgba(13, 19, 33, 0.95);
-            --border-neon: #00d2d3;
-        }
-
         body {
-            background-color: var(--bg-dark);
+            background-color: #060913;
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -25,7 +17,6 @@ html
             min-height: 100vh;
             margin: 0;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at center, #111a2e 0%, #060913 100%);
         }
 
         .terminal-header {
@@ -33,41 +24,31 @@ html
             width: 90%;
             max-width: 800px;
             padding: 20px;
-            background: var(--panel-bg);
-            border: 2px solid var(--secondary-glow);
+            background: #0d1321;
+            border: 2px solid #ff9f43;
             border-radius: 12px;
-            box-shadow: 0 0 35px rgba(0,0,0,0.8);
             margin-bottom: 35px;
         }
 
         h1 {
             font-size: 2.3rem;
-            color: var(--secondary-glow);
+            color: #ff9f43;
             margin: 0 0 10px 0;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(255, 159, 67, 0.5);
         }
 
         .subtitle {
             font-size: 1.1rem;
             color: #48dbfb;
-            font-family: 'Courier New', monospace;
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
         }
 
         .btn-container {
             margin: 20px;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         #dispatchBtn {
-            background: radial-gradient(circle, #ff4d4d 0%, #c0392b 100%);
+            background: #c0392b;
             color: white;
             border: 6px solid #ff6b6b;
             border-radius: 50%;
@@ -77,43 +58,25 @@ html
             font-weight: 900;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(255, 77, 77, 0.6), inset 0 4px 10px rgba(255,255,255,0.4);
-            transition: all 0.2s ease;
-            outline: none;
-            letter-spacing: 1px;
-        }
-
-        #dispatchBtn:hover {
-            transform: scale(1.06);
-            box-shadow: 0 0 40px rgba(255, 77, 77, 0.9);
-        }
-
-        #dispatchBtn:active {
-            transform: scale(0.94);
         }
 
         #dispatchBtn:disabled {
-            background: #222f3e !important;
-            border-color: #57606f !important;
-            color: #57606f !important;
+            background: #222f3e;
+            border-color: #57606f;
+            color: #57606f;
             cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
         }
 
         #timerDisplay {
             font-size: 2.3rem;
             margin-top: 20px;
-            font-family: 'Courier New', Courier, monospace;
-            color: var(--primary-glow);
+            color: #ff3838;
             display: none;
             font-weight: 900;
             background: #000000;
             padding: 12px 30px;
             border-radius: 8px;
-            border: 2px solid var(--primary-glow);
-            box-shadow: 0 0 20px rgba(255, 56, 56, 0.5);
-            text-shadow: 0 0 10px rgba(255, 56, 56, 0.8);
+            border: 2px solid #ff3838;
         }
 
         .stage {
@@ -121,10 +84,9 @@ html
             width: 100%;
             height: 260px;
             margin-top: 40px;
-            background: linear-gradient(180deg, #0e1424 0%, #04060f 100%);
-            border-top: 4px solid var(--border-neon);
-            border-bottom: 4px solid var(--border-neon);
-            box-shadow: inset 0 0 40px rgba(0,210,211,0.2);
+            background: #04060f;
+            border-top: 4px solid #00d2d3;
+            border-bottom: 4px solid #00d2d3;
             overflow: hidden;
             display: none;
         }
@@ -185,7 +147,7 @@ html
     </div>
 
     <div class="btn-container">
-        <button id="dispatchBtn">Dispatch</button>
+        <button id="dispatchBtn" onclick="triggerSystem()">Dispatch</button>
     </div>
 
     <div id="timerDisplay">TIME UNTIL ARRIVAL: 05:00</div>
@@ -222,12 +184,7 @@ html
     </div>
 
     <script>
-        var audioCtx = null;
-        var sirenInterval = null;
-        var stepInterval = null;
-        var monkeyInterval = null;
-
-        document.getElementById('dispatchBtn').addEventListener('click', function() {
+        function triggerSystem() {
             var btn = document.getElementById('dispatchBtn');
             var timer = document.getElementById('timerDisplay');
             var stage = document.getElementById('chaseStage');
@@ -236,29 +193,7 @@ html
             timer.style.display = 'block';
             stage.style.display = 'block';
 
-            try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-            } catch(e) {
-                console.log(e);
-            }
-
-            if (audioCtx) {
-                sirenInterval = setInterval(playSiren, 600);
-                stepInterval = setInterval(playFootstep, 180);
-                monkeyInterval = setInterval(function() {
-                    if(Math.random() > 0.2) playMonkeyScreech();
-                }, 280);
-            }
-
             setTimeout(function() {
-                if(sirenInterval) clearInterval(sirenInterval);
-                if(stepInterval) clearInterval(stepInterval);
-                if(monkeyInterval) clearInterval(monkeyInterval);
                 stage.style.display = 'none';
             }, 12000);
 
@@ -270,3 +205,14 @@ html
                     timer.innerText = "TACTICAL INTERCEPTION COMPLETE // ARRIVED";
                     btn.disabled = false;
                 } else {
+                    var minutes = Math.floor(timeRemaining / 60);
+                    var seconds = timeRemaining % 60;
+                    if (minutes < 10) minutes = '0' + minutes;
+                    if (seconds < 10) seconds = '0' + seconds;
+                    timer.innerText = 'TIME UNTIL ARRIVAL: ' + minutes + ':' + seconds;
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
